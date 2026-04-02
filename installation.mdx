@@ -1,0 +1,69 @@
+---
+title: "Installation"
+description: "Install DLSS Swapper on Windows using winget or by downloading manually from the GitHub releases page."
+---
+
+## System requirements
+
+| Requirement | Minimum |
+| --- | --- |
+| Operating system | Windows 10 64-bit (20H1, build 19041) |
+| GPU | Any |
+
+## Install DLSS Swapper
+
+<Tabs>
+  <Tab title="winget (recommended)">
+    The easiest way to install DLSS Swapper is with [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/), the Windows Package Manager. It handles installation and future updates automatically.
+
+    Open a terminal and run:
+
+    ```bash
+    winget install --id=beeradmoore.dlss-swapper -e
+    ```
+
+    <Tip>
+      Run the same command again at any time to update DLSS Swapper to the latest version.
+    </Tip>
+  </Tab>
+  <Tab title="Manual download">
+    You can download DLSS Swapper directly from the GitHub releases page.
+
+    <Steps>
+      <Step title="Go to the releases page">
+        Open [github.com/beeradmoore/dlss-swapper/releases](https://github.com/beeradmoore/dlss-swapper/releases) in your browser.
+      </Step>
+      <Step title="Download the installer or portable zip">
+        Under the latest release, download either:
+
+        - The **installer** (`.exe`) for a standard Windows installation.
+        - The **portable zip** (`.zip`) to run DLSS Swapper without installing it.
+      </Step>
+      <Step title="Run the installer or extract the zip">
+        - For the installer: run the `.exe` and follow the on-screen prompts.
+        - For the portable zip: extract the contents to any folder and run `DLSS Swapper.exe` directly.
+      </Step>
+    </Steps>
+
+    <Warning>
+      Only download DLSS Swapper from the official GitHub releases page. Malicious sites have been known to distribute fake versions.
+    </Warning>
+  </Tab>
+</Tabs>
+
+## Installed vs portable mode
+
+DLSS Swapper has two modes that determine where it stores its configuration and cached data.
+
+| Mode | Storage path |
+| --- | --- |
+| Installed | `%LOCALAPPDATA%\DLSS Swapper\` |
+| Portable | `StoredData\` relative to `DLSS Swapper.exe` |
+
+In **installed mode** (used when you install via winget or the installer), configuration files and the game cache database are written to your local app data folder. This keeps your user data separate from the application files.
+
+In **portable mode** (used when you run the executable directly from a zip), all data is stored in a `StoredData\` folder next to the executable. This lets you run DLSS Swapper from a USB drive or any folder without leaving data on the system.
+
+<Note>
+  The internal database (`dlss_swapper.db`) stores your game cache, favourites, notes, and last-used DLL versions. It is created automatically on first launch.
+</Note>

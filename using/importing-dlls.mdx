@@ -1,0 +1,78 @@
+---
+title: "Importing DLLs"
+description: "How to import a local DLL file into the DLSS Swapper library so it can be swapped into games."
+---
+
+DLSS Swapper's built-in manifest covers officially released DLL versions, but you can also import DLL files from your local machine. Imported DLLs appear in the **Library** tab alongside official versions and can be used to swap into any game just like downloaded ones.
+
+## Supported filenames
+
+The import system identifies a DLL's type by its filename. The file you import **must** have one of the following exact names:
+
+| Filename | DLL type |
+|---|---|
+| `nvngx_dlss.dll` | DLSS |
+| `nvngx_dlssg.dll` | DLSS G (Frame Generation) |
+| `nvngx_dlssd.dll` | DLSS D (Ray Reconstruction) |
+| `amd_fidelityfx_dx12.dll` | FSR 3.1 DX12 |
+| `amd_fidelityfx_vk.dll` | FSR 3.1 Vulkan |
+| `libxess.dll` | XeSS |
+| `libxess_dx11.dll` | XeSS DX11 |
+| `libxess_fg.dll` | XeSS FG (Frame Generation) |
+| `libxell.dll` | XeLL |
+
+Files with any other name are rejected with an "unknown DLL type" error.
+
+## Digital signature verification
+
+Before adding a DLL to the library, DLSS Swapper verifies its embedded digital signature using the Windows WinTrust API. If the signature check fails (i.e. the DLL is not signed by a trusted publisher), the import is rejected by default and you will see an "untrusted DLL" error.
+
+To import unsigned or self-signed DLLs, enable **Allow Untrusted** in **Settings**. This setting also applies when swapping DLLs — if a downloaded version fails its signature check at swap time, the swap will be blocked unless **Allow Untrusted** is on.
+
+<Warning>
+  Importing or using untrusted DLLs carries risk. Only enable **Allow Untrusted** if you are confident in the source of the file.
+</Warning>
+
+## How to import a DLL
+
+<Steps>
+  <Step title="Open the Library page">
+    Navigate to the **Library** tab in DLSS Swapper.
+  </Step>
+  <Step title="Start the import">
+    Use the import action (file picker or drag-and-drop, depending on your version) to select the DLL file you want to add. The file must have one of the supported filenames listed above.
+  </Step>
+  <Step title="Automatic processing">
+    DLSS Swapper:
+    1. Reads the file version and computes its MD5 hash.
+    2. Verifies the embedded digital signature via WinTrust.
+    3. Checks whether a DLL with the same MD5 hash already exists in the library.
+    4. Copies the file into DLSS Swapper's local storage under the imported DLLs path.
+    5. Records the new entry in the imported manifest file on disk.
+  </Step>
+  <Step title="Version appears in the Library">
+    Once imported, the version appears in the appropriate category of the **Library** tab, marked as downloaded and ready to use. You can swap it into any compatible game from the **Games** tab.
+  </Step>
+</Steps>
+
+## Deduplication with official versions
+
+When you import a DLL, DLSS Swapper checks the MD5 hash of the file against all versions already in the main manifest. If the hash matches an existing official version:
+
+- The imported file is placed in the standard (non-imported) storage path for that version.
+- The official manifest entry's download status is updated to "downloaded".
+- The import is tracked as having resolved an existing known version rather than creating a new separate entry.
+
+This means importing a DLL that is already in the manifest simply marks that official version as downloaded, rather than duplicating it.
+
+## Deleting an imported version
+
+Imported versions can be deleted from the **Library** tab the same way as downloaded official versions — use the **Delete** button on the version's card. DLSS Swapper removes the file from disk and updates the imported manifest to remove the entry.
+
+<Accordion title="What happens if an imported file goes missing?">
+  At startup, DLSS Swapper validates every entry in the imported manifest by checking whether the file still exists on disk. If an imported DLL file is no longer found, the corresponding entry is automatically removed from the imported manifest to keep the library clean.
+</Accordion>
+
+## The imported manifest
+
+Imported versions are tracked in a separate manifest file (`imported_manifest.json`) stored in DLSS Swapper's data directory alongside the main `manifest.json`. Both manifests are merged when building the DLL lists shown in the **Library** tab. If the imported manifest file cannot be loaded at startup, the import feature is disabled for that session to prevent accidental data loss.

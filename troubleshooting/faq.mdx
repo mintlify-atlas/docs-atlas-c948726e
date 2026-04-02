@@ -1,0 +1,73 @@
+---
+title: FAQ
+description: Answers to frequently asked questions about DLSS Swapper.
+---
+
+<AccordionGroup>
+  <Accordion title="Can I add DLSS, FSR, or XeSS to a game that doesn't have it?">
+    No. DLSS Swapper can only swap DLL versions for upscaling technologies that a game already ships with. It cannot inject DLSS, FSR, or XeSS support into a game that was not built to use them.
+  </Accordion>
+
+  <Accordion title="Will swapping DLLs get me banned in multiplayer games?">
+    There is a real risk. Some multiplayer and online games run anti-cheat systems that detect changes to game files, including DLLs. DLSS Swapper does not bypass anti-cheat software and makes no guarantees about online safety.
+
+    Use DLSS Swapper in multiplayer games entirely at your own risk. If you are unsure, restore the original DLL before playing online.
+  </Accordion>
+
+  <Accordion title="Where are my game backups stored?">
+    When you swap a DLL, DLSS Swapper backs up the original file inside the game's own install folder, right next to the DLL that was replaced. The backup is given a `.dlsss` extension — for example, `nvngx_dlss.dll` is backed up as `nvngx_dlss.dll.dlsss`.
+
+    You can restore the original DLL at any time from within DLSS Swapper using the **Restore** action on the game's detail panel. If the game's install folder is deleted or moved, the backup is lost along with it.
+  </Accordion>
+
+  <Accordion title="Does DLSS Swapper work with any GPU?">
+    Yes. DLSS Swapper itself runs on any GPU that meets the Windows 10 64-bit (20H1, build 19041) system requirement. However, whether a swapped DLL actually works in-game depends on the GPU and the technology:
+
+    - **DLSS** requires an NVIDIA GPU with Tensor Cores (RTX series).
+    - **DLSS G (Frame Generation)** requires an NVIDIA RTX 40-series GPU. Swapping the `nvngx_dlssg.dll` alone will not enable frame generation on unsupported hardware.
+    - **FSR** is GPU-agnostic.
+    - **XeSS** works on any GPU, though it uses a specialized code path on Intel Arc GPUs.
+  </Accordion>
+
+  <Accordion title="What is the difference between DLSS, DLSS G, and DLSS D?">
+    These are three separate NVIDIA technologies, each shipped as its own DLL:
+
+    - **DLSS** (`nvngx_dlss.dll`) — Super Resolution. Upscales a lower-resolution frame to the target resolution using AI.
+    - **DLSS G** (`nvngx_dlssg.dll`) — Frame Generation. Generates additional frames between rendered frames to increase perceived frame rate. Requires RTX 40-series.
+    - **DLSS D** (`nvngx_dlssd.dll`) — Ray Reconstruction (formerly "DLSS RR"). Replaces the denoiser used in ray-traced rendering with an AI-based denoiser.
+
+    DLSS Swapper treats each as an independent DLL type. Swapping one does not affect the others.
+  </Accordion>
+
+  <Accordion title="Can I use DLSS Swapper on Steam Deck or Linux?">
+    No. DLSS Swapper is a Windows-only application. The minimum supported version is Windows 10 64-bit (20H1, build 19041). It does not run on Linux, macOS, or Steam Deck's SteamOS.
+  </Accordion>
+
+  <Accordion title="How do I report a bug or request a feature?">
+    Use the GitHub issue tracker:
+
+    - [Report a bug](https://github.com/beeradmoore/dlss-swapper/issues/new?template=bug_report.yml) — fill in the bug report template, including your DLSS Swapper version, Windows version, and attach your log file if relevant.
+    - [Request a feature](https://github.com/beeradmoore/dlss-swapper/issues/new?template=feature_request.yml) — describe the feature and why it would be useful.
+
+    When reporting a bug, the log file location is shown on the Settings screen in DLSS Swapper.
+  </Accordion>
+
+  <Accordion title="Is DLSS Swapper safe? How do I know I have the official version?">
+    The only official sources for DLSS Swapper are:
+
+    - **GitHub releases:** https://github.com/beeradmoore/dlss-swapper/releases
+    - **winget:** `winget install --id=beeradmoore.dlss-swapper -e`
+
+    <Warning>
+      There are malicious sites claiming to distribute DLSS Swapper. Do not download DLSS Swapper from any site other than the official GitHub releases page or winget. If you find an unofficial site or account impersonating DLSS Swapper, [file an issue on GitHub](https://github.com/beeradmoore/dlss-swapper/issues/new?template=other_issue.yml).
+    </Warning>
+
+    Official community accounts: [Twitter (@dlss_swapper)](https://twitter.com/dlss_swapper) and [r/DLSS_Swapper](https://www.reddit.com/r/DLSS_Swapper/).
+  </Accordion>
+
+  <Accordion title="What happens if I uninstall DLSS Swapper — are my games restored?">
+    Uninstalling DLSS Swapper does not automatically restore swapped DLLs in your games. If you have swapped any DLLs, restore them from within DLSS Swapper before uninstalling. Use the **Restore** action for each game where you performed a swap.
+
+    DLSS Swapper stores its own data (downloaded DLLs, settings, manifests) under `%LOCALAPPDATA%\DLSS Swapper`. Uninstalling the application does not delete this folder automatically.
+  </Accordion>
+</AccordionGroup>

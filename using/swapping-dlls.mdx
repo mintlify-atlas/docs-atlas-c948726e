@@ -1,0 +1,68 @@
+---
+title: "Swapping DLLs"
+description: "Step-by-step guide to replacing a DLSS, FSR, or XeSS DLL in a game, and how to restore the original file."
+---
+
+Swapping a DLL replaces the upscaling library in a specific game with a version of your choice. DLSS Swapper automatically backs up the original file before making any changes, so you can always restore it.
+
+<Warning>
+  Swapping DLLs in online or multiplayer games can trigger anti-cheat systems and may result in a ban. Only swap DLLs in single-player games or in games where you are certain the publisher permits it. DLSS Swapper shows a warning the first time you attempt a swap to remind you of this risk.
+</Warning>
+
+## How to swap a DLL
+
+<Steps>
+  <Step title="Open the Games page">
+    Launch DLSS Swapper and navigate to the **Games** tab. The game grid displays all installed games that have at least one swappable DLL. You can group games by library or view them all together — toggle this with the **Group by library** option.
+  </Step>
+  <Step title="Find your game">
+    Locate the game whose DLL you want to change. Use the search box to filter by name, or scroll through the grid. Games without any recognized DLL files are hidden by default.
+  </Step>
+  <Step title="Open the game detail panel">
+    Click the game's cover art to open its detail panel. The panel shows the current version of each detected DLL type (DLSS, DLSS G, DLSS D, FSR 3.1 DX12, FSR 3.1 Vulkan, XeSS, XeSS DX11, XeSS FG, XeLL) and whether a backup of the original is stored.
+  </Step>
+  <Step title="Select the DLL type to swap">
+    Choose which DLL type you want to change — for example, select **DLSS** to replace `nvngx_dlss.dll`, or **XeSS** to replace `libxess.dll`. Only DLL types that are present in the game's install folder are shown.
+  </Step>
+  <Step title="Pick a version">
+    A version picker lists all versions available in the **Library** for that DLL type. Only downloaded versions can be selected. Choose the version you want to use.
+  </Step>
+  <Step title="Confirm the swap">
+    Confirm your selection. Before copying the new file, DLSS Swapper:
+    1. Verifies the hash of the downloaded DLL to ensure it has not been corrupted.
+    2. Verifies the digital signature of the DLL (unless **Allow Untrusted** is enabled in **Settings**).
+    3. Creates a backup of the current DLL by copying it to the same location with a `.dlsss` extension.
+    4. Copies the chosen version to the game's folder, overwriting the existing file.
+
+    If the game is currently running, the swap will fail because the DLL is in use. Close the game first.
+  </Step>
+</Steps>
+
+## Backup and restore
+
+Before the first swap on any given DLL in a game, DLSS Swapper saves a copy of the original file next to it with a `.dlsss` extension. This backup is created only once — subsequent swaps on the same game reuse the existing backup rather than overwriting it with an already-swapped version.
+
+If the game is later updated by its launcher and the DLL changes externally (different version detected on the next scan), DLSS Swapper automatically deletes the stale backup. This prevents the app from showing an outdated "original" version.
+
+### Restoring the original DLL
+
+To revert a game to its original DLL:
+
+1. Open the game's detail panel.
+2. For the DLL type you want to restore, click the **Reset** button (or equivalent restore action).
+3. DLSS Swapper moves the backup file (`.dlsss`) back to the original path, replacing the swapped version.
+
+If no backup exists — for example, if you repaired or reinstalled the game — the reset option will not be available. In that case, repair the game through its launcher.
+
+<Note>
+  If DLSS Swapper is unable to write to the game's install directory, try relaunching it as administrator. The app will prompt you if elevated permissions are needed.
+</Note>
+
+## Game grid grouping
+
+The **Games** page can display games in two modes:
+
+- **Grouped by library** — games are organised under headings for each enabled library (Steam, GOG, Epic Games Store, etc.), with a separate **Favourites** group at the top.
+- **All games together** — a flat list sorted alphabetically, with only the **Favourites** group separated at the top.
+
+Switch between these modes using the grouping toggle in **Settings** (`GroupGameLibrariesTogether`). The game grid updates immediately when the setting changes.

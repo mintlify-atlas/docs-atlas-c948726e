@@ -1,0 +1,138 @@
+---
+title: Settings overview
+description: A reference for every user-facing setting in DLSS Swapper, including display, library, and DLL options.
+---
+
+DLSS Swapper settings are accessible from the **Settings** page in the left navigation bar. Changes are saved automatically — there is no separate save button. All settings are persisted to `settings.json` in the application's storage folder.
+
+## Appearance
+
+<AccordionGroup>
+  <Accordion title="App theme">
+    Controls the color theme of the DLSS Swapper window. Select one of three options:
+
+    | Value | Behavior |
+    |---|---|
+    | **System default** | Follows the Windows system light/dark mode setting |
+    | **Light** | Always uses the light theme regardless of system settings |
+    | **Dark** | Always uses the dark theme regardless of system settings |
+
+    Default: **System default**
+  </Accordion>
+
+  <Accordion title="Language">
+    Sets the display language for the application UI. Select a language from the dropdown. The change takes effect immediately without restarting.
+
+    An **Open Translation Toolbox** button is available below the language selector for contributors who want to help translate DLSS Swapper into additional languages.
+  </Accordion>
+</AccordionGroup>
+
+## Game library display
+
+<AccordionGroup>
+  <Accordion title="Hide non-DLSS games">
+    When enabled, games that do not contain any DLSS, FSR, or XeSS DLL files are hidden from the game grid. This helps reduce visual clutter when you have a large game library.
+
+    Default: **off** (all detected games are shown)
+  </Accordion>
+
+  <Accordion title="Group game libraries together">
+    When enabled, games from the same library (for example, all Steam games) are grouped together in the game grid. When disabled, games from all libraries are interleaved and sorted as a single flat list.
+
+    Default: **on**
+  </Accordion>
+
+  <Accordion title="Game view type">
+    Controls whether games are displayed as a grid of cover art tiles or as a compact list. Two options are available:
+
+    | Value | Description |
+    |---|---|
+    | **Grid view** | Displays game cover art in a tiled grid layout |
+    | **List view** | Displays games as rows in a compact list |
+
+    Default: **Grid view**
+  </Accordion>
+
+  <Accordion title="Grid view item width">
+    Sets the width (in pixels) of each game tile when **Grid view** is active. Increasing this value makes cover art larger; decreasing it shows more games on screen at once.
+
+    Default: **200**
+  </Accordion>
+</AccordionGroup>
+
+## DLL picker
+
+<AccordionGroup>
+  <Accordion title="Only show downloaded DLLs">
+    When enabled, the DLL picker for a game only shows DLL versions you have already downloaded locally. DLL versions available for download but not yet present on disk are hidden.
+
+    <Note>
+      This setting applies only to the DLL picker dialog, not to the game library list itself.
+    </Note>
+
+    Default: **off**
+  </Accordion>
+</AccordionGroup>
+
+## Game libraries
+
+<AccordionGroup>
+  <Accordion title="Game library enable/disable and order">
+    The **Game libraries** section of the Settings page lists every supported library with a toggle switch. Disabling a library hides all of its games from the game grid and prevents it from being scanned on startup.
+
+    Libraries can also be reordered by dragging them up or down in the list. The order here controls how games are grouped when **Group game libraries together** is enabled.
+
+    See [Library settings](/configuration/library-settings) for full details.
+  </Accordion>
+
+  <Accordion title="Ignored paths">
+    A list of folder paths that DLSS Swapper will skip when scanning for games. Any game whose installation directory starts with an ignored path will not appear in the game grid.
+
+    Use the **Add ignored path** button to open a folder picker and select a directory to exclude. Expand any listed path and click **Remove** to delete it.
+
+    Default: **empty** (no paths ignored)
+  </Accordion>
+
+  <Accordion title="Don't show manually adding games notice">
+    Suppresses the informational notice that appears the first time you attempt to manually add a game folder. Once dismissed, this flag is set automatically.
+
+    Default: **off** (notice is shown)
+  </Accordion>
+</AccordionGroup>
+
+## Advanced
+
+<AccordionGroup>
+  <Accordion title="Allow untrusted DLLs">
+    When enabled, DLSS Swapper allows importing DLL files that do not have a valid digital signature. By default only signed DLLs are permitted.
+
+    <Warning>
+      Importing unsigned DLLs carries a security risk. Only enable this setting if you trust the source of the DLL file. See [Advanced settings](/configuration/advanced-settings) for more detail.
+    </Warning>
+
+    Default: **off**
+  </Accordion>
+
+  <Accordion title="Allow debug DLLs">
+    When enabled, debug-build variants of DLSS, FSR, and XeSS DLLs are shown in the DLL picker alongside regular release builds. Debug DLLs are typically larger and may output additional logging to disk.
+
+    Default: **off**
+  </Accordion>
+
+  <Accordion title="Logging level">
+    Controls how much detail DLSS Swapper writes to its log file. Available levels, from least to most verbose:
+
+    | Level | Description |
+    |---|---|
+    | **Off** | No log output |
+    | **Error** | Only unrecoverable errors |
+    | **Warning** | Errors and warnings |
+    | **Info** | General operational messages |
+    | **Debug** | Detailed diagnostic output |
+    | **Verbose** | Maximum detail, including low-level events |
+
+    A link to the current log file is shown beneath the selector. Clicking it opens the log file's containing folder in Windows Explorer.
+
+    Default: **Error** (release builds) · **Verbose** (debug builds)
+  </Accordion>
+</AccordionGroup>

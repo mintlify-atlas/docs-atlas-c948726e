@@ -1,0 +1,106 @@
+---
+title: "AMD FSR and Intel XeSS"
+description: "Learn about the FSR and XeSS DLL types managed by DLSS Swapper — what each technology does, which GPUs are supported, and when to swap versions."
+---
+
+DLSS Swapper manages DLL files for two additional upscaling and frame generation technologies: AMD **FidelityFX Super Resolution (FSR)** and Intel **Xe Super Sampling (XeSS)**. Both are designed to run on any GPU, making them accessible regardless of whether you have an NVIDIA, AMD, or Intel card.
+
+<Note>
+  DLSS Swapper can only swap FSR and XeSS DLLs in games that already ship with support for these technologies. It cannot add FSR or XeSS to a game that does not support them.
+</Note>
+
+## AMD FSR
+
+**FSR (FidelityFX Super Resolution)** is AMD's open-source upscaling framework. Unlike DLSS, FSR does not rely on machine learning hardware — it runs on any GPU from any vendor.
+
+<CardGroup cols={1}>
+  <Card title="FSR 3.1 DirectX 12" icon="layer-group">
+    **DLL filename:** `amd_fidelityfx_dx12.dll`
+
+    **Requires:** Any GPU; DirectX 12 capable hardware
+
+    This DLL provides FSR 3.1 Super Resolution and, in supported games, Fluid Motion Frames (frame generation) via the DirectX 12 graphics API. Most modern PC games that support FSR 3.1 use this DLL.
+  </Card>
+
+  <Card title="FSR 3.1 Vulkan" icon="layer-group">
+    **DLL filename:** `amd_fidelityfx_vk.dll`
+
+    **Requires:** Any GPU; Vulkan capable hardware
+
+    This DLL provides the same FSR 3.1 feature set as the DirectX 12 variant but for games that use the Vulkan graphics API. Some cross-platform titles ship with both DLLs; others ship only the API variant that matches their renderer.
+  </Card>
+</CardGroup>
+
+### Why swap FSR versions?
+
+AMD releases updated FSR builds that improve upscaling quality, reduce artifacts, and introduce new features. Swapping to a newer FSR DLL can:
+
+- Improve image clarity and reduce temporal instability (shimmering) at lower quality presets
+- Enable newer FSR features such as improved frame generation in games that ship with an older build
+- Fix compatibility issues on certain hardware or driver combinations
+
+## Intel XeSS
+
+**XeSS (Xe Super Sampling)** is Intel's upscaling and frame generation framework. It uses AI-based upscaling that runs on any GPU but is optimised for Intel Arc GPUs, which have dedicated XMX (Xe Matrix eXtensions) hardware that XeSS can use for higher-quality results.
+
+<CardGroup cols={1}>
+  <Card title="XeSS" icon="microchip">
+    **DLL filename:** `libxess.dll`
+
+    **Requires:** Any GPU; Intel Arc GPUs get best quality via XMX hardware
+
+    The core XeSS upscaling DLL. It reconstructs a higher-resolution image from a lower-resolution input using an AI model. On Intel Arc GPUs it uses dedicated matrix hardware for higher quality; on other GPUs it falls back to a DP4a code path that still works well.
+  </Card>
+
+  <Card title="XeSS Frame Generation" icon="film">
+    **DLL filename:** `libxess_fg.dll`
+
+    **Requires:** Any GPU with DirectX 12 support; Intel Arc GPUs recommended for best results
+
+    XeSS Frame Generation generates intermediate frames to increase perceived frame rates, similar to DLSS Frame Generation. It uses optical flow estimation and AI interpolation to insert synthetic frames between rendered ones.
+  </Card>
+
+  <Card title="XeSS DirectX 11" icon="microchip">
+    **DLL filename:** `libxess_dx11.dll`
+
+    **Requires:** Any GPU with DirectX 11 support
+
+    A variant of the XeSS upscaling DLL for games that use the DirectX 11 graphics API. Older titles that have added XeSS support may use this DLL rather than the standard `libxess.dll`.
+  </Card>
+
+  <Card title="XeLL (Xe Low Latency)" icon="bolt">
+    **DLL filename:** `libxell.dll`
+
+    **Requires:** Any GPU; Intel Arc GPUs recommended
+
+    Intel's low-latency technology, comparable to NVIDIA Reflex. XeLL reduces the time between your inputs (mouse clicks, keypresses) and what you see on screen, improving responsiveness in fast-paced games.
+  </Card>
+</CardGroup>
+
+### Why swap XeSS versions?
+
+Intel releases updated XeSS builds with quality improvements, bug fixes, and new capabilities. Swapping to a newer XeSS DLL can:
+
+- Improve upscaling sharpness and reduce ghosting on moving objects
+- Update the AI model used for reconstruction, which improves over time
+- Enable newer XeSS preset modes introduced after a game shipped
+- Fix crashes or visual glitches caused by older DLL versions on current drivers
+
+## GPU compatibility summary
+
+| Technology | DLL | Works on any GPU | Optimised for |
+|---|---|---|---|
+| FSR 3.1 DX12 | `amd_fidelityfx_dx12.dll` | Yes | Any DX12 GPU |
+| FSR 3.1 Vulkan | `amd_fidelityfx_vk.dll` | Yes | Any Vulkan GPU |
+| XeSS | `libxess.dll` | Yes | Intel Arc (XMX hardware) |
+| XeSS Frame Generation | `libxess_fg.dll` | Yes (DX12) | Intel Arc |
+| XeSS DX11 | `libxess_dx11.dll` | Yes | Any DX11 GPU |
+| XeLL | `libxell.dll` | Yes | Intel Arc |
+
+<Tip>
+  Always let DLSS Swapper create a backup before swapping. If a new DLL version causes problems or prevents a game from launching, you can restore the original from inside the app.
+</Tip>
+
+<Warning>
+  Swapping FSR or XeSS DLLs is not guaranteed to improve performance or image quality in every game. Results vary by title, GPU, and the specific versions being compared.
+</Warning>

@@ -1,0 +1,83 @@
+---
+title: Known limitations
+description: Documented constraints and known issues in DLSS Swapper.
+---
+
+## System requirements
+
+DLSS Swapper requires **Windows 10 64-bit (20H1, build 19041)** or later. Earlier Windows versions and all non-Windows platforms are not supported.
+
+---
+
+## DLL swapping limitations
+
+**DLSS Swapper cannot add upscaling support to games that don't already have it.**
+The application works by replacing an existing DLL file in the game's install folder. If the game was not shipped with DLSS, FSR, or XeSS, there is no DLL to replace and no integration point to inject one.
+
+**Swapping a DLL does not guarantee any improvement.**
+Changing to a different DLL version will not necessarily:
+
+- Improve upscaling performance or quality.
+- Reduce visual artifacts.
+- Provide a crash-free experience.
+
+In some cases a newer version resolves issues; in others it may introduce new ones or prevent the game from launching. The restore function is available for all swaps.
+
+**Some games will fail to launch after a swap.**
+Games that validate their DLL files at startup may refuse to run if the version or hash does not match the originally shipped file. Use the **Restore** action in DLSS Swapper to revert to the original DLL.
+
+<Note>
+  Backups of the original DLL are stored inside the game's install folder, alongside the original DLL file with a `.dlsss` extension. If the install folder is deleted or moved, the backup is lost.
+</Note>
+
+---
+
+## Hardware-specific limitations
+
+**DLSS G (Frame Generation) requires an RTX 40-series GPU.**
+Swapping `nvngx_dlssg.dll` alone will not enable frame generation on GPUs that do not support it. The feature is gated in hardware and the game engine, not only in the DLL version.
+
+---
+
+## Multiplayer and online games
+
+**Anti-cheat systems may flag DLL changes.**
+Multiplayer and online games often use anti-cheat software that monitors game file integrity. Swapping a DLL — even with a version from the same vendor — may be detected and result in a ban or kick. DLSS Swapper does not interact with or bypass anti-cheat software.
+
+<Warning>
+  Use DLSS Swapper in games with active anti-cheat systems at your own risk. Restore the original DLL before playing online if you are unsure.
+</Warning>
+
+---
+
+## Game library detection
+
+**EA App library detection may miss games.**
+DLSS Swapper detects EA App games by scanning the Windows registry for uninstall entries that contain `EAInstaller` and `Cleanup.exe` in the uninstall string, then reads the `contentID` from each game's `__Installer\installerdata.xml`. Games where this file is absent or where the registry entries are non-standard will not be detected automatically. Use **Add Game** to add them manually.
+
+---
+
+## Import system
+
+**A corrupt imported manifest disables the import feature.**
+DLSS Swapper maintains a separate `imported_manifest.json` file for DLLs you import manually. If this file exists on disk but cannot be parsed (for example, if it is malformed), the import system is disabled for the session to prevent overwriting user data. The error is recorded in the log file. To recover, locate `imported_manifest.json` in `%LOCALAPPDATA%\DLSS Swapper\json\` and delete or repair it.
+
+**Only known DLL filenames are accepted for import.**
+The import system recognises a fixed set of DLL filenames:
+
+| Filename | Type |
+|---|---|
+| `nvngx_dlss.dll` | DLSS |
+| `nvngx_dlssg.dll` | DLSS G |
+| `nvngx_dlssd.dll` | DLSS D |
+| `amd_fidelityfx_dx12.dll` | FSR 3.1 DX12 |
+| `amd_fidelityfx_vk.dll` | FSR 3.1 Vulkan |
+| `libxess.dll` | XeSS |
+| `libxess_dx11.dll` | XeSS DX11 |
+| `libxess_fg.dll` | XeSS FG |
+| `libxell.dll` | XeLL |
+
+Files with any other name are rejected with an "unknown DLL type" error.
+
+**Untrusted DLLs are rejected by default.**
+Imported DLLs are verified using Windows Authenticode signature checking. Files without a valid embedded signature are rejected unless **Allow Untrusted** is enabled in **Settings → Advanced**.

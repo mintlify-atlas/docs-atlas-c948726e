@@ -1,0 +1,103 @@
+---
+title: Advanced settings
+description: Advanced options in DLSS Swapper including untrusted DLL importing, debug DLL visibility, logging levels, and where settings are stored on disk.
+---
+
+The following settings are intended for users who need finer control over DLSS Swapper's behavior. They are all accessible from the **Settings** page.
+
+## Allow untrusted DLLs
+
+The **Allow untrusted** toggle controls whether DLSS Swapper permits you to import DLL files that do not carry a valid Authenticode digital signature.
+
+By default this is **off**. DLSS Swapper uses Windows trust verification (`WinTrust`) to check each DLL before it is imported. If the signature check fails, the import is rejected.
+
+When **Allow untrusted** is turned **on**, that signature check is bypassed and any DLL file can be imported regardless of its signing status.
+
+<Warning>
+  Unsigned DLLs have not been verified by a trusted authority. A malicious or tampered DLL imported into a game could cause instability or pose a security risk. Only enable this setting when you are certain of the DLL's origin.
+</Warning>
+
+Changing this setting also immediately re-filters the DLL records that are displayed in the application — previously hidden untrusted entries become visible (or are re-hidden) without needing to restart.
+
+## Allow debug DLLs
+
+The **Allow debug DLLs** toggle controls whether debug-build variants of DLSS, FSR, and XeSS DLLs are shown in the DLL picker.
+
+By default this is **off**. Debug DLLs are special builds of the upscaling runtimes that include additional internal logging, assertion checks, and diagnostic output. They are typically larger than release builds and are not intended for general gaming use.
+
+When **Allow debug DLLs** is turned **on**, any debug DLL variants that DLSS Swapper knows about are listed alongside the regular release entries in the DLL picker.
+
+Like **Allow untrusted**, toggling this setting immediately re-filters the visible DLL records.
+
+## Logging level
+
+The **Logging** selector controls the verbosity of DLSS Swapper's own log output (separate from any per-DLL DLSS developer logging options).
+
+| Level | Description |
+|---|---|
+| **Off** | No log entries are written |
+| **Error** | Only unrecoverable error events |
+| **Warning** | Warnings and errors |
+| **Info** | General operational messages |
+| **Debug** | Detailed diagnostic messages |
+| **Verbose** | All events including low-level trace output |
+
+Default values by build type:
+
+- **Release builds** default to **Error**, meaning only serious failures are recorded.
+- **Debug builds** default to **Verbose**, capturing everything to assist development.
+
+Log files are written on a rolling daily basis and up to 7 days of logs are retained. A clickable link to the current log file is shown directly below the selector in **Settings**. Clicking it opens the containing folder in Windows Explorer so you can inspect or share the file.
+
+Log files are stored in:
+
+| Mode | Log path |
+|---|---|
+| Installed | `%TEMP%\DLSS Swapper\logs\` |
+| Portable | `<app folder>\StoredData\temp\logs\` |
+
+<Tip>
+  If you are reporting a bug, temporarily switching to **Verbose** and reproducing the issue will produce a log file with the most detail for the developer to diagnose the problem.
+</Tip>
+
+## Where settings are stored
+
+DLSS Swapper has two installation modes — **installed** (the default MSIX package) and **portable** (run directly from a folder). The storage path differs between them.
+
+<CardGroup cols={2}>
+  <Card title="Installed mode" icon="box-archive">
+    Settings are stored inside the user's local application data directory:
+
+    ```
+    %LOCALAPPDATA%\DLSS Swapper\json\settings.json
+    ```
+
+    This is typically resolved to a path such as:
+
+    ```
+    C:\Users\<username>\AppData\Local\DLSS Swapper\json\settings.json
+    ```
+  </Card>
+  <Card title="Portable mode" icon="folder-open">
+    Settings are stored in a `StoredData` folder relative to the DLSS Swapper executable:
+
+    ```
+    <app folder>\StoredData\json\settings.json
+    ```
+
+    This makes the entire application self-contained and moveable.
+  </Card>
+</CardGroup>
+
+The settings file is plain JSON. It is read on startup and written automatically whenever a setting changes — there is no manual save step. If the file cannot be read (for example, because it is missing or corrupted), DLSS Swapper silently falls back to defaults and writes a fresh `settings.json` with those defaults.
+
+Other data files stored alongside `settings.json` in the same storage folder include:
+
+| File / folder | Contents |
+|---|---|
+| `json/settings.json` | Application settings |
+| `json/releases.json` | Cached DLL release manifest |
+| `json/manifest.json` | Cached DLL download manifest |
+| `json/imported_manifest.json` | Manifest of locally imported DLLs |
+| `dlss_swapper.db` | Local SQLite database of game and DLL records |
+| `image_cache/` | Cached game cover art images |

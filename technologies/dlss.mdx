@@ -1,0 +1,71 @@
+---
+title: "NVIDIA DLSS"
+description: "Learn about the DLSS DLL types managed by DLSS Swapper — Super Resolution, Frame Generation, and Ray Reconstruction — and why you might want to swap versions."
+---
+
+NVIDIA **DLSS** (Deep Learning Super Sampling) is a suite of AI-powered rendering technologies built into NVIDIA GPUs. DLSS Swapper manages three separate DLSS DLL files, each responsible for a different feature.
+
+<Note>
+  DLSS Swapper can only swap DLSS DLLs in games that already ship with DLSS support. It cannot add DLSS to a game that does not support it.
+</Note>
+
+## DLSS types
+
+<CardGroup cols={1}>
+  <Card title="DLSS Super Resolution" icon="wand-magic-sparkles">
+    **DLL filename:** `nvngx_dlss.dll`
+
+    **Requires:** Any NVIDIA GPU (RTX and older GTX cards with Tensor Cores)
+
+    DLSS Super Resolution uses AI to reconstruct a high-resolution image from a lower-resolution input. The GPU renders the game at a reduced internal resolution and DLSS upscales it — delivering higher frame rates with image quality that can match or exceed native resolution rendering.
+
+    This is the original and most widely supported DLSS feature, found in hundreds of PC games.
+  </Card>
+
+  <Card title="DLSS Frame Generation" icon="film">
+    **DLL filename:** `nvngx_dlssg.dll`
+
+    **Requires:** NVIDIA RTX 40-series GPU (Ada Lovelace architecture) or newer
+
+    DLSS Frame Generation (also called DLSS G) generates additional intermediate frames between rendered frames using Optical Multi Frame Generation technology. This increases perceived frame rates, particularly in GPU-limited scenarios.
+
+    Because frame generation requires dedicated Optical Flow hardware introduced with RTX 40-series cards, this DLL has no effect on earlier GPU generations.
+  </Card>
+
+  <Card title="DLSS Ray Reconstruction" icon="sun">
+    **DLL filename:** `nvngx_dlssd.dll`
+
+    **Requires:** Any NVIDIA RTX GPU
+
+    DLSS Ray Reconstruction (also called DLSS D, formerly known as DLSS RR) replaces traditional hand-tuned denoisers used in ray-traced rendering. It uses an AI model trained on ray-traced data to produce cleaner, more detailed images in games with ray tracing enabled.
+
+    This DLL is only relevant when a game uses ray tracing. In games without ray tracing, it has no effect.
+  </Card>
+</CardGroup>
+
+## Why swap DLSS versions?
+
+NVIDIA ships updated DLSS models regularly. Game developers often bundle a DLSS version that was current at release, which may be months or years old by the time you play. Swapping to a newer version can:
+
+- Reduce ghosting or smearing artifacts on moving objects
+- Improve sharpness and fine detail at lower quality presets (such as Performance or Ultra Performance)
+- Add support for new DLSS presets introduced after the game shipped
+- Fix rendering issues specific to your game or hardware combination
+
+Swapping to an older version can also be useful if a newer version introduces new artifacts in a specific game, or if a game behaves incorrectly with the latest model.
+
+<Tip>
+  Always let DLSS Swapper create a backup before swapping. If the new version causes problems or prevents the game from launching, you can restore the original DLL from inside the app.
+</Tip>
+
+## GPU requirements at a glance
+
+| Feature | DLL | Minimum GPU |
+|---|---|---|
+| Super Resolution | `nvngx_dlss.dll` | NVIDIA GPU with Tensor Cores |
+| Frame Generation | `nvngx_dlssg.dll` | NVIDIA RTX 40-series or newer |
+| Ray Reconstruction | `nvngx_dlssd.dll` | Any NVIDIA RTX GPU |
+
+<Warning>
+  Swapping DLSS DLLs is not guaranteed to improve performance or image quality in every game. Results vary by title, GPU, and the specific versions being compared. There is also a small chance a swap could prevent a game from launching — restore the backup DLL if this happens.
+</Warning>

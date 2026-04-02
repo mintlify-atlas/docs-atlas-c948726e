@@ -1,0 +1,53 @@
+---
+title: "Game libraries"
+description: "The eight game libraries that DLSS Swapper can detect and scan for games, and how to enable or disable each one."
+---
+
+DLSS Swapper supports eight game libraries. When the app starts it checks whether each library is installed on your system. Libraries that are detected as installed are enabled by default. You can turn any library on or off individually in **Settings**.
+
+## Supported libraries
+
+<CardGroup cols={2}>
+  <Card title="Steam" icon="steam">
+    Valve's PC gaming platform. DLSS Swapper detects Steam by reading the `InstallPath` value from the Windows registry key `HKLM\SOFTWARE\Valve\Steam` (32-bit view). It then parses `steamapps\libraryfolders.vdf` to discover every Steam library folder, and reads the individual `appmanifest_*.acf` files inside each folder to enumerate installed games.
+  </Card>
+  <Card title="GOG" icon="gamepad">
+    GOG Galaxy and standalone GOG offline installer games. Detection looks for the registry key `HKLM\SOFTWARE\GOG.com\Games` (32-bit view). This key is created by both the GOG Galaxy client and GOG offline installers, so games installed without Galaxy are still found.
+  </Card>
+  <Card title="Epic Games Store" icon="gamepad">
+    The Epic Games Launcher. Detection checks for the `%ProgramData%\Epic` directory. Game manifests are read from `%ProgramData%\Epic\EpicGamesLauncher\Data\Manifests`, and cover art metadata is sourced from the catalog cache file at `%ProgramData%\Epic\EpicGamesLauncher\Data\Catalog\catcache.bin`.
+  </Card>
+  <Card title="Ubisoft Connect" icon="shield">
+    Ubisoft's game launcher and storefront. DLSS Swapper locates the Ubisoft Connect installation path via the Windows registry and then reads game configuration data to enumerate installed Ubisoft titles.
+  </Card>
+  <Card title="Xbox App" icon="xbox">
+    Games installed through the Xbox app (Microsoft Gaming App) on Windows. Detection queries the Windows Package Manager API for the `Microsoft.GamingApp_8wekyb3d8bbwe` package. Installed games are discovered by scanning each drive for a `.GamingRoot` file, which points to the folder containing Xbox game packages.
+  </Card>
+  <Card title="Battle.net" icon="flame">
+    Blizzard's Battle.net launcher. Detection checks for the presence of `%ProgramData%\Battle.net\Agent\product.db`. Game install paths are read from that protobuf database file and cross-referenced with a built-in list of known Blizzard and Activision titles.
+  </Card>
+  <Card title="EA App" icon="gamepad">
+    Electronic Arts' storefront and launcher. Detection looks for the registry key `HKLM\SOFTWARE\Electronic Arts\EA Desktop` (32-bit view) and verifies that the `InstallLocation` path exists on disk. Installed games are enumerated from EA App's local content database.
+  </Card>
+  <Card title="Manually added" icon="folder-plus">
+    Games from any source that are not covered by the above launchers. This library is always available regardless of what other software is installed. Use the **Add Game** button on the **Games** page to point DLSS Swapper at any game's install folder. Manually added games are stored in DLSS Swapper's own database and persist across restarts.
+  </Card>
+</CardGroup>
+
+## Enabling and disabling libraries
+
+Each library can be toggled on or off independently:
+
+1. Open **Settings**.
+2. Locate the game libraries section.
+3. Use the toggle next to each library name to enable or disable it.
+
+Disabling a library hides all of its games from the **Games** page and stops DLSS Swapper from scanning it on startup. The library's cached game data is preserved, so re-enabling it restores the games immediately.
+
+<Note>
+  If a library is not installed on your system, its toggle will still appear in **Settings** but no games will be found even when it is enabled.
+</Note>
+
+## Adding games manually
+
+For games that are not managed by any of the supported launchers — such as games installed from a disc, DRM-free downloads, or custom paths — use the **Add Game** button on the **Games** page. You will be prompted to select the game's root installation folder. DLSS Swapper scans that folder recursively for recognized DLL files and adds the game to the **Manually Added** library group.

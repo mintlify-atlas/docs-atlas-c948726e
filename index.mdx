@@ -1,97 +1,61 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "DLSS Swapper"
+description: "Download, manage, and swap DLSS, FSR, and XeSS DLL versions in your PC games — no game update required."
 ---
 
-## Setting up
+DLSS Swapper is a free Windows tool that lets you upgrade or downgrade the upscaling DLL in any supported game. Pick any version of DLSS, FSR 3.1, or XeSS from the built-in library, swap it into your game, and restore the original at any time.
 
-Get your documentation site up and running in minutes.
+<Warning>
+  Be aware of malicious sites claiming to be DLSS Swapper. The only official download is from the [GitHub releases page](https://github.com/beeradmoore/dlss-swapper/releases) or via `winget`.
+</Warning>
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+## Get started
 
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Introduction" icon="book-open" href="/introduction">
+    Learn what DLSS Swapper does and why you might want it.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Installation" icon="download" href="/installation">
+    Install DLSS Swapper via winget or the GitHub releases page.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Game libraries" icon="gamepad" href="/using/game-libraries">
+    Connect Steam, GOG, Epic Games, Xbox App, and more.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Swapping DLLs" icon="arrows-rotate" href="/using/swapping-dlls">
+    Upgrade or downgrade DLSS, FSR, or XeSS in a game.
   </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## How it works
 
-Everything you need to create world-class documentation.
+<Steps>
+  <Step title="Install DLSS Swapper">
+    Download from GitHub releases or run `winget install --id=beeradmoore.dlss-swapper -e`.
+  </Step>
+  <Step title="Connect your game libraries">
+    DLSS Swapper automatically detects Steam, GOG, Epic Games, Ubisoft Connect, Xbox App, Battle.net, and EA App.
+  </Step>
+  <Step title="Browse and download DLL versions">
+    Open the **Library** tab to see all available DLSS, FSR, and XeSS versions. Download whichever you want to try.
+  </Step>
+  <Step title="Swap a DLL in your game">
+    Find your game in the grid, click it, and choose a downloaded version to swap. DLSS Swapper automatically backs up the original DLL first.
+  </Step>
+</Steps>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## Explore the docs
 
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<CardGroup cols={2}>
+  <Card title="Managing DLLs" icon="folder-open" href="/using/managing-dlls">
+    Download, delete, and organise DLL versions in the library.
+  </Card>
+  <Card title="Importing DLLs" icon="file-import" href="/using/importing-dlls">
+    Import DLL files from your own machine into the library.
+  </Card>
+  <Card title="Settings" icon="gear" href="/configuration/settings-overview">
+    Configure themes, language, filters, and library options.
+  </Card>
+  <Card title="Troubleshooting" icon="wrench" href="/troubleshooting/common-issues">
+    Fix common problems and find answers to frequent questions.
+  </Card>
+</CardGroup>

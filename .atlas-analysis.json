@@ -1,0 +1,76 @@
+{
+  "projectType": "saas",
+  "projectName": "DLSS Swapper",
+  "projectDescription": "A Windows desktop application that lets gamers download, manage, and swap DLSS, FSR, and XeSS DLL versions in PC games without requiring a game update.",
+  "theme": "almond",
+  "primaryColor": "#1A7FD4",
+  "lightColor": null,
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "installation"
+            ]
+          },
+          {
+            "group": "Using DLSS Swapper",
+            "pages": [
+              "using/game-libraries",
+              "using/managing-dlls",
+              "using/swapping-dlls",
+              "using/importing-dlls"
+            ]
+          },
+          {
+            "group": "Settings & Configuration",
+            "pages": [
+              "configuration/settings-overview",
+              "configuration/library-settings",
+              "configuration/advanced-settings"
+            ]
+          },
+          {
+            "group": "Supported Technologies",
+            "pages": [
+              "technologies/dlss",
+              "technologies/fsr-and-xess"
+            ]
+          },
+          {
+            "group": "Troubleshooting & FAQ",
+            "pages": [
+              "troubleshooting/common-issues",
+              "troubleshooting/faq",
+              "troubleshooting/known-limitations"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Download and manage DLSS, FSR 3.1, and XeSS DLL versions from a curated manifest",
+    "Swap DLL versions in games from Steam, GOG, Epic Games, Ubisoft Connect, Xbox App, Battle.net, and EA App",
+    "Automatic backup and restore of original game DLLs before swapping",
+    "Import custom/local DLL files into the managed library",
+    "Filter and group games by library or favourites with live UI updates",
+    "Portable mode and installed mode with configurable storage paths",
+    "SQLite-backed game cache for fast startup and persistent game metadata",
+    "Per-game notes, favourites, and last-used DLL version tracking"
+  ],
+  "publicApiSurface": [
+    "GameLibrary enum (Steam, GOG, EpicGamesStore, UbisoftConnect, XboxApp, BattleNet, EAApp, ManuallyAdded)",
+    "GameAssetType enum (DLSS, DLSS_G, DLSS_D, FSR_31_DX12, FSR_31_VK, XeSS, XeSS_FG, XeSS_DX11, XeLL and BACKUP variants)",
+    "IGameLibrary interface (ListGamesAsync, LoadGamesFromCacheAsync, IsInstalled, IsEnabled, Enable, Disable)",
+    "DLLManager.Instance (DLSSRecords, XeSSRecords, FSR31DX12Records, ImportDll, DeleteImportedDllRecord)",
+    "Settings.Instance (HideNonDLSSGames, GroupGameLibrariesTogether, AppTheme, AllowUntrusted, GameLibrarySettings, Language, IgnoredPaths)",
+    "GameManager.Instance (AllGames, AddGame, LoadGamesFromCacheAsync, LoadGamesAsync)",
+    "winget install --id=beeradmoore.dlss-swapper -e"
+  ]
+}

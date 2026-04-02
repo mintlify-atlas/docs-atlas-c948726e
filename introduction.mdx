@@ -1,0 +1,82 @@
+---
+title: "Introduction"
+description: "DLSS Swapper lets you download, manage, and swap DLSS, FSR, and XeSS DLL versions in your PC games without waiting for a game update."
+---
+
+DLSS Swapper is a free Windows tool that lets you upgrade or downgrade the upscaling DLL in any supported game. It works by replacing the DLL files that games ship with, letting you test different versions of DLSS, FSR, or XeSS to find the one that works best for you.
+
+## Why use DLSS Swapper?
+
+Game developers ship a specific version of DLSS (or FSR, or XeSS) at release time. Newer DLL versions can reduce artifacts, improve image quality, or fix crashes — but game updates that include them can take months to arrive. DLSS Swapper lets you swap in any version immediately, and restore the original DLL at any time.
+
+## Supported DLL types
+
+DLSS Swapper supports the following DLL types:
+
+| DLL type | Description |
+| --- | --- |
+| DLSS | NVIDIA Deep Learning Super Sampling (super resolution) |
+| DLSS-G | NVIDIA DLSS Frame Generation |
+| DLSS-D | NVIDIA DLSS Ray Reconstruction (formerly Denoiser) |
+| FSR 3.1 DX12 | AMD FidelityFX Super Resolution 3.1 (DirectX 12) |
+| FSR 3.1 Vulkan | AMD FidelityFX Super Resolution 3.1 (Vulkan) |
+| XeSS | Intel Xe Super Sampling |
+| XeSS Frame Generation | Intel XeSS Frame Generation |
+| XeSS DX11 | Intel XeSS (DirectX 11) |
+| XeLL | Intel Xe Low Latency |
+
+## Supported game libraries
+
+<CardGroup cols={2}>
+  <Card title="Steam" icon="steam" href="https://store.steampowered.com/">
+    Automatically detects games installed through Steam.
+  </Card>
+  <Card title="GOG" icon="gamepad" href="https://www.gog.com/">
+    Automatically detects games installed through GOG Galaxy.
+  </Card>
+  <Card title="Epic Games Store" icon="store" href="https://store.epicgames.com/">
+    Automatically detects games installed through the Epic Games launcher.
+  </Card>
+  <Card title="Ubisoft Connect" icon="shield" href="https://www.ubisoft.com/">
+    Automatically detects games installed through Ubisoft Connect.
+  </Card>
+  <Card title="Xbox App" icon="xbox" href="https://www.xbox.com/">
+    Automatically detects games installed through the Xbox App on Windows.
+  </Card>
+  <Card title="Battle.net" icon="bolt" href="https://shop.battle.net/">
+    Automatically detects games installed through Blizzard's Battle.net launcher.
+  </Card>
+  <Card title="EA App" icon="gamepad" href="https://www.ea.com/ea-app">
+    Automatically detects games installed through the EA App.
+  </Card>
+  <Card title="Manually added" icon="plus">
+    Add any game not covered by the above libraries using the **Add Game** button.
+  </Card>
+</CardGroup>
+
+## System requirements
+
+| Requirement | Minimum |
+| --- | --- |
+| Operating system | Windows 10 64-bit (20H1, build 19041) |
+| GPU | Any |
+
+## Official links
+
+Download DLSS Swapper only from official sources. Malicious sites have been known to distribute fake versions.
+
+- **GitHub**: [github.com/beeradmoore/dlss-swapper](https://github.com/beeradmoore/dlss-swapper/)
+- **Twitter**: [twitter.com/dlss_swapper](https://twitter.com/dlss_swapper)
+- **Reddit**: [r/DLSS_Swapper](https://www.reddit.com/r/DLSS_Swapper/)
+
+<Warning>
+  If you find any accounts or sites claiming to be DLSS Swapper that are not listed above, do not download from them. You can [file an issue](https://github.com/beeradmoore/dlss-swapper/issues/new?template=other_issue.yml) to report them.
+</Warning>
+
+## What DLSS Swapper cannot do
+
+<Note>
+  DLSS Swapper cannot add DLSS, FSR, or XeSS support to games that do not already include those DLLs. It can only swap the version of a DLL that a game already ships with.
+</Note>
+
+Swapping DLL versions does not guarantee improved performance or image quality, and in some cases may prevent a game from launching. DLSS Swapper always backs up the original DLL so you can restore it at any time.

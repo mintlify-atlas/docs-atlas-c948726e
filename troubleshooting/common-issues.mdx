@@ -1,0 +1,115 @@
+---
+title: Common issues
+description: Solutions to the most frequently reported problems in DLSS Swapper.
+---
+
+## Game not appearing in DLSS Swapper
+
+DLSS Swapper scans supported game libraries automatically on launch. If a game is missing, check the following:
+
+<Steps>
+  <Step title="Verify the library is enabled">
+    Open **Settings** and confirm that the game library (Steam, GOG, Epic Games, Ubisoft Connect, Xbox App, Battle.net, or EA App) is enabled. Each library has an individual toggle.
+  </Step>
+  <Step title="Check the game install path">
+    DLSS Swapper detects games by reading from each launcher's registry keys and install paths. If a game was installed to a non-default location or the library's registry entries are missing, detection may fail.
+  </Step>
+  <Step title="Add the game manually">
+    For games that cannot be detected automatically, use the **Add Game** button. This lets you point DLSS Swapper directly at the game's install folder.
+  </Step>
+</Steps>
+
+<Tip>
+  After changing library settings or installing a new game, use the refresh button to re-scan your libraries without restarting the application.
+</Tip>
+
+---
+
+## DLL swap didn't take effect
+
+If a game is still using the old DLL version after a swap:
+
+- **Restart the game completely.** A running game loads DLLs into memory at launch. Changes take effect only on the next startup.
+- **Confirm the correct DLL type was swapped.** DLSS Swapper manages several distinct DLL types: DLSS (`nvngx_dlss.dll`), DLSS G (`nvngx_dlssg.dll`), DLSS D (`nvngx_dlssd.dll`), FSR 3.1 DX12 (`amd_fidelityfx_dx12.dll`), FSR 3.1 Vulkan (`amd_fidelityfx_vk.dll`), XeSS (`libxess.dll`), and others. Swapping one type does not affect the others. Verify you replaced the DLL that the game actually uses.
+
+---
+
+## Game won't launch after swap
+
+Some games validate their DLL files on startup and will refuse to run or crash if the version does not match what was originally shipped.
+
+<Steps>
+  <Step title="Open the game in DLSS Swapper">
+    Navigate to the affected game in the game list.
+  </Step>
+  <Step title="Restore the original DLL">
+    Select the DLL type that was swapped and use the **Restore** action. DLSS Swapper stores a backup of the original DLL alongside the swap and will copy it back to the game folder.
+  </Step>
+</Steps>
+
+<Note>
+  Backups are stored inside the game's own install folder, next to the swapped DLL, with a `.dlsss` extension (for example, `nvngx_dlss.dll.dlsss`). If the install folder is deleted or moved, the backup is lost.
+</Note>
+
+---
+
+## Import fails with "untrusted DLL" error
+
+When you import a DLL, DLSS Swapper verifies its embedded Authenticode signature using the Windows trust verification API. If the DLL does not carry a valid signature, the import is rejected by default.
+
+<Warning>
+  Enable **Allow Untrusted** in **Settings → Advanced** only if you are certain the source DLL is safe. Importing unsigned or tampered DLLs carries a security risk. DLSS Swapper does not audit the contents of untrusted files.
+</Warning>
+
+To allow the import to proceed:
+
+1. Open **Settings**.
+2. Scroll to the **Advanced** section.
+3. Enable **Allow Untrusted**.
+4. Retry the import.
+
+If the import succeeds after enabling this option, the DLL was not signed by a trusted publisher. Proceed with caution.
+
+---
+
+## DLL download fails
+
+DLSS Swapper downloads DLL packages from a remote manifest. If a download fails:
+
+- **Check your internet connection.** The download requires outbound HTTPS access.
+- **The cached manifest is used automatically.** On startup, DLSS Swapper attempts to fetch an updated `manifest.json` from the remote source. If that fetch fails, it falls back to the locally cached copy saved from the previous successful download. If no cached copy exists, it falls back further to a static manifest bundled inside the application itself.
+- **Try again later.** Transient network errors or server-side issues may resolve on their own.
+
+<Note>
+  Logs will show whether the remote, cached, or static manifest was used. See the section below on how to enable verbose logging for more detail.
+</Note>
+
+---
+
+## Logging and diagnostics
+
+DLSS Swapper writes log files using rolling daily files, retaining the last 7 days of logs.
+
+**Finding your log files:**
+
+1. Open **Settings**.
+2. The path to the current log file is displayed on the Settings screen. Click the path to open the containing folder in Explorer.
+
+Log files are located in:
+```
+%TEMP%\DLSS Swapper\logs\
+```
+
+**Increasing log verbosity:**
+
+By default, release builds only log errors. To capture more detail for diagnostics:
+
+1. Open **Settings**.
+2. Find the **Logging Level** dropdown.
+3. Change the level to **Verbose**.
+
+Available levels, from least to most verbose: `Off`, `Error`, `Warning`, `Info`, `Debug`, `Verbose`.
+
+<Tip>
+  When reporting a bug, attach the log file from the day the issue occurred. The bug report template on GitHub includes a field for log output.
+</Tip>

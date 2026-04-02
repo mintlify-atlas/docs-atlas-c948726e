@@ -1,0 +1,102 @@
+---
+title: Library settings
+description: How to enable or disable game libraries, reorder them, and exclude specific game directories using ignored paths.
+---
+
+DLSS Swapper scans your installed game libraries to build the game grid. The **Game libraries** section of the **Settings** page gives you full control over which libraries are active, what order they appear in, and which individual game directories should be excluded.
+
+## Supported libraries
+
+DLSS Swapper supports the following game libraries:
+
+| Library | Notes |
+|---|---|
+| **Steam** | Standard Steam installation detected via registry |
+| **GOG** | GOG Galaxy installation |
+| **Epic Games Store** | Epic Games launcher installation |
+| **Ubisoft Connect** | Ubisoft Connect launcher installation |
+| **Xbox App** | Xbox app / Microsoft Store games |
+| **Battle.net** | Blizzard Battle.net launcher installation |
+| **EA App** | EA App launcher installation |
+| **Manually added** | Game folders you have added by hand; always listed last by default |
+
+Each library entry shows a toggle switch labelled with the library name. The switch reads **[Library] enabled** when active and **[Library] disabled** when inactive.
+
+## Enabling and disabling libraries
+
+<Steps>
+  <Step title="Open Settings">
+    Navigate to the **Settings** page using the left navigation bar.
+  </Step>
+  <Step title="Locate the Game libraries section">
+    Scroll down to the **Game libraries** heading.
+  </Step>
+  <Step title="Toggle the library">
+    Click the toggle switch next to a library to enable or disable it.
+
+    - When **enabled**, DLSS Swapper scans the library on startup and shows its games in the game grid.
+    - When **disabled**, the library is skipped entirely and its games are hidden.
+  </Step>
+</Steps>
+
+Changes take effect immediately. The game list updates the next time games are reloaded (for example, on the next launch or when you trigger a manual refresh).
+
+<Note>
+  Disabling a library does not uninstall or modify any games. It only hides them within DLSS Swapper.
+</Note>
+
+## Reordering libraries
+
+The order of libraries in the **Game libraries** list controls how games are grouped in the game grid when **Group game libraries together** is enabled.
+
+To reorder a library:
+
+1. Hover over the library row — a drag handle icon (≡) appears on the left.
+2. Click and drag the row to its new position.
+3. Release to drop it in place.
+
+The updated order is saved automatically. The **Manually added** library is placed at the bottom of the list by default and can be repositioned like any other library.
+
+## Ignored paths
+
+The **Ignored paths** setting lets you exclude specific directories from all library scans. Any game whose installation path begins with an ignored path will be skipped and will not appear in the game grid, even if its library is enabled.
+
+This is useful when:
+- A library installation folder contains non-game directories that are incorrectly detected as games.
+- You have games installed in a shared folder and want to hide a subset of them.
+
+### Adding an ignored path
+
+<Steps>
+  <Step title="Click Add ignored path">
+    In the **Ignored paths** section, click the **Add ignored path** button.
+  </Step>
+  <Step title="Select a folder">
+    A folder picker dialog opens. Navigate to and select the directory you want to exclude.
+  </Step>
+  <Step title="Confirm">
+    The selected path is added to the list and the game grid updates to hide any matching games immediately.
+  </Step>
+</Steps>
+
+<Note>
+  DLSS Swapper automatically appends a trailing backslash to each path. A path of `C:\Games\MyFolder` is stored as `C:\Games\MyFolder\` and will match any game installed inside that folder.
+</Note>
+
+If you attempt to add a path that is already in the list, DLSS Swapper will display an error and decline to add a duplicate.
+
+### Removing an ignored path
+
+<Steps>
+  <Step title="Expand the path entry">
+    In the **Ignored paths** list, click on the path you want to remove to expand it.
+  </Step>
+  <Step title="Click Remove">
+    Click the **Remove** button that appears inside the expanded row.
+  </Step>
+  <Step title="Confirm deletion">
+    A confirmation dialog asks you to confirm. Click **Delete** to proceed or **Cancel** to keep the path.
+  </Step>
+</Steps>
+
+After removal, games in that directory become visible again in the game grid (provided their library is still enabled).

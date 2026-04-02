@@ -1,0 +1,74 @@
+---
+title: "Managing DLLs"
+description: "How to browse, download, and delete DLL versions in the DLSS Swapper library, and how the DLL manifest system works."
+---
+
+The **Library** tab is where you manage the pool of DLL versions that DLSS Swapper can deploy to your games. It is separate from the **Games** tab: the **Library** tab is about managing the files themselves, while the **Games** tab is where you apply them.
+
+## DLL types
+
+The **Library** tab organizes versions into nine categories, selectable from the bar at the top of the page:
+
+| Category | DLL filename |
+|---|---|
+| DLSS | `nvngx_dlss.dll` |
+| DLSS G (Frame Generation) | `nvngx_dlssg.dll` |
+| DLSS D (Ray Reconstruction) | `nvngx_dlssd.dll` |
+| FSR 3.1 DX12 | `amd_fidelityfx_dx12.dll` |
+| FSR 3.1 Vulkan | `amd_fidelityfx_vk.dll` |
+| XeSS | `libxess.dll` |
+| XeSS DX11 | `libxess_dx11.dll` |
+| XeSS FG (Frame Generation) | `libxess_fg.dll` |
+| XeLL | `libxell.dll` |
+
+Select a category to see all known versions for that DLL type.
+
+## Downloaded vs not downloaded
+
+Every entry in the **Library** tab is either **downloaded** or **not downloaded**:
+
+- **Downloaded** — the DLL file is present in DLSS Swapper's local storage and is immediately available to swap into games.
+- **Not downloaded** — the version is listed in the manifest but the file has not been fetched yet. You must download it before it can be used.
+
+A version's download status is shown on its card. Only downloaded versions can be selected when swapping a DLL in a game.
+
+## Downloading a version
+
+1. Select the DLL category from the bar at the top of the **Library** page.
+2. Find the version you want in the list.
+3. Click the **Download** button on the version's card.
+4. A progress indicator appears while the file is being fetched. Once complete the card updates to show the version as downloaded.
+
+## Deleting a downloaded version
+
+To free up disk space, you can delete any downloaded version that is no longer needed:
+
+1. On the **Library** page, locate the downloaded version.
+2. Click the **Delete** button on the version's card.
+3. The file is removed from local storage and the card returns to the not-downloaded state.
+
+<Note>
+  Deleting a version from the library does not affect any game that already has that DLL swapped in. The file was already copied to the game's folder at swap time.
+</Note>
+
+## Filtering to downloaded versions only
+
+If you want to hide versions that have not been downloaded yet, enable the **Only show downloaded DLLs** option in **Settings**. When this is on, the **Library** tab shows only versions that are already present on disk. This option applies across all DLL categories.
+
+## The DLL manifest system
+
+DLSS Swapper maintains a manifest that describes all known DLL versions — their version numbers, MD5 hashes, file sizes, download URLs, and signature status. The manifest is fetched from a remote source at `https://beeradmoore.github.io/dlss-swapper/manifest.json`.
+
+On startup the app loads the manifest in this order:
+
+1. **Cached manifest** — if a manifest has previously been downloaded and saved to disk, it is loaded first for fast startup.
+2. **Static manifest** — if no cached manifest exists (for example on first run), a static manifest that was bundled inside the application at build time is used instead.
+3. **Remote manifest** — after initial load, DLSS Swapper attempts to fetch the latest manifest from the remote URL. If the remote manifest differs from the one on disk, the new version is saved and the DLL lists are updated automatically.
+
+If both the cached and static manifests fail to load, the app attempts to fetch the remote manifest before reporting an error.
+
+In addition to the main manifest, DLSS Swapper maintains a separate **imported manifest** that tracks any DLL versions you have added via the import feature. Imported versions appear in the same lists as official ones, seamlessly merged and sorted by version number.
+
+<Tip>
+  Use the **Refresh** button on the **Library** page to manually trigger a remote manifest update without restarting the app.
+</Tip>
